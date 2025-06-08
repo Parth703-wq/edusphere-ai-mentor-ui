@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Bot, Send, Lightbulb, HelpCircle, BookOpen } from 'lucide-react';
+import { Message } from '@/types';
 
 interface AIMentorProps {
   context?: string;
@@ -14,9 +15,9 @@ interface AIMentorProps {
 
 const AIMentor = ({ context, isOpen, onToggle }: AIMentorProps) => {
   const [message, setMessage] = useState('');
-  const [conversation, setConversation] = useState([
+  const [conversation, setConversation] = useState<Message[]>([
     {
-      type: 'ai' as const,
+      type: 'ai',
       content: "Hi! I'm your AI mentor. I can help explain concepts, create quizzes, or clarify anything you're learning. What would you like to know?",
       timestamp: new Date()
     }
@@ -31,14 +32,14 @@ const AIMentor = ({ context, isOpen, onToggle }: AIMentorProps) => {
   const handleSendMessage = () => {
     if (!message.trim()) return;
 
-    const userMessage = {
-      type: 'user' as const,
+    const userMessage: Message = {
+      type: 'user',
       content: message,
       timestamp: new Date()
     };
 
-    const aiResponse = {
-      type: 'ai' as const,
+    const aiResponse: Message = {
+      type: 'ai',
       content: generateAIResponse(message, context),
       timestamp: new Date()
     };
